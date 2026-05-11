@@ -1,0 +1,110 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiring Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<main class="container">
+    <header class="form-header">
+        <p class="eyebrow">Project request</p>
+        <h1>Hiring Form</h1>
+        <p class="subtitle">Share your work details and we will contact you soon.</p>
+    </header>
+
+    {% if success %}
+        <div class="alert success">{{ success }}</div>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert error-box">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" placeholder="Your full name" value="{{ data.name if data else '' }}" required>
+            {% if errors and errors.name %}<span class="field-error">{{ errors.name }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="service">Work/Service</label>
+            <select id="service" name="service" required>
+                <option value="">Select a service</option>
+                {% for service in services %}
+                    <option value="{{ service }}" {% if data and data.service == service %}selected{% endif %}>{{ service }}</option>
+                {% endfor %}
+            </select>
+            {% if errors and errors.service %}<span class="field-error">{{ errors.service }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="duration">Work Duration</label>
+            <input id="duration" type="text" name="duration" placeholder="e.g. 7 days, 1 month" value="{{ data.duration if data else '' }}" required>
+            {% if errors and errors.duration %}<span class="field-error">{{ errors.duration }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="num">Contact Number</label>
+            <input id="num" type="text" name="num" placeholder="10 digit number" maxlength="10" inputmode="numeric" value="{{ data.num if data else '' }}" required>
+            {% if errors and errors.num %}<span class="field-error">{{ errors.num }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="wnum">Whatsapp Number</label>
+            <input id="wnum" type="text" name="wnum" placeholder="10 digit number" maxlength="10" inputmode="numeric" value="{{ data.wnum if data else '' }}" required>
+            {% if errors and errors.wnum %}<span class="field-error">{{ errors.wnum }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label for="pin">Pincode</label>
+            <input id="pin" type="text" name="pin" placeholder="6 digit pincode" maxlength="6" inputmode="numeric" value="{{ data.pin if data else '' }}" required>
+            {% if errors and errors.pin %}<span class="field-error">{{ errors.pin }}</span>{% endif %}
+        </div>
+
+        <div class="field full">
+            <label for="email">Email ID</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" value="{{ data.email if data else '' }}" required>
+            {% if errors and errors.email %}<span class="field-error">{{ errors.email }}</span>{% endif %}
+        </div>
+
+        <div class="field full">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" placeholder="Your complete address" required>{{ data.address if data else '' }}</textarea>
+            {% if errors and errors.address %}<span class="field-error">{{ errors.address }}</span>{% endif %}
+        </div>
+
+        <div class="field full">
+            <label for="message">Project Details</label>
+            <textarea id="message" name="message" placeholder="Tell us about your work requirement" required>{{ data.message if data else '' }}</textarea>
+            {% if errors and errors.message %}<span class="field-error">{{ errors.message }}</span>{% endif %}
+        </div>
+
+        <button type="submit">
+            Submit Hiring Request
+        </button>
+    </form>
+
+    {% if data %}
+    <div class="output">
+        <h2>Client Details</h2>
+        <p><b>Name:</b> {{ data.name }}</p>
+        <p><b>Work/Service:</b> {{ data.service }}</p>
+        <p><b>Work Duration:</b> {{ data.duration }}</p>
+        <p><b>Contact Number:</b> {{ data.num }}</p>
+        <p><b>Whatsapp Number:</b> {{ data.wnum }}</p>
+        <p><b>Email:</b> {{ data.email }}</p>
+        <p><b>Address:</b> {{ data.address }}</p>
+        <p><b>Pincode:</b> {{ data.pin }}</p>
+        <p><b>Project Message:</b> {{ data.message }}</p>
+    </div>
+    {% endif %}
+</main>
+
+</body>
+</html>
